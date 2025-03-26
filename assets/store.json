@@ -1,0 +1,87 @@
+[
+  {
+    "name": "Ноутбук ASUS VivoBook 15",
+    "desc": "Мощный и стильный ноутбук с процессором Intel Core i5, 8 ГБ ОЗУ и SSD на 512 ГБ.",
+    "price": 350000,
+    "images": [
+      "assets/laptop_asus1.jpeg"
+    ]
+  },
+  {
+    "name": "Смартфон Samsung Galaxy S23",
+    "desc": "Флагманский смартфон с ярким AMOLED-дисплеем, мощным процессором и камерой 50 МП.",
+    "price": 420000,
+    "images": [
+      "assets/samsung_s23_1.jpeg",
+      "assets/samsung_s23_2.jpeg",
+      "assets/samsung_s23_3.jpeg"
+    ]
+  },
+  {
+    "name": "Игровая приставка PlayStation 5",
+    "desc": "Новейшая игровая консоль с поддержкой 4K-гейминга и быстродействующим SSD.",
+    "price": 380000,
+    "images": [
+      "assets/ps5_1.jpeg",
+      "assets/ps5_2.jpeg",
+      "assets/ps5_3.jpeg",
+      "assets/ps5_4.jpeg"
+    ]
+  },
+  {
+    "name": "Телевизор LG OLED 55",
+    "desc": "Современный OLED-телевизор с диагональю 55 дюймов и поддержкой 4K HDR.",
+    "price": 600000,
+    "images": [
+      "assets/lg_oled55_1.jpeg",
+      "assets/lg_oled55_2.jpeg"
+    ]
+  },
+  {
+    "name": "Наушники Apple AirPods Pro 2",
+    "desc": "Беспроводные наушники с активным шумоподавлением и пространственным звуком.",
+    "price": 120000,
+    "images": [
+      "assets/airpods_pro2_1.jpeg"
+    ]
+  },
+  {
+    "name": "Планшет iPad Air 2022",
+    "desc": "Мощный планшет с чипом M1, поддержкой Apple Pencil и экраном Liquid Retina.",
+    "price": 350000,
+    "images": [
+      "assets/ipad_air_1.jpeg",
+      "assets/ipad_air_2.jpeg",
+      "assets/ipad_air_3.jpeg"
+    ]
+  },
+  {
+    "name": "Умные часы Samsung Galaxy Watch 5",
+    "desc": "Современные смарт-часы с измерением пульса, мониторингом сна и водонепроницаемостью.",
+    "price": 110000,
+    "images": [
+      "assets/galaxy_watch5_1.jpeg"
+    ]
+  },
+  {
+    "name": "Беспроводная колонка JBL Charge 5",
+    "desc": "Портативная колонка с мощным звуком, защитой от воды и долгим временем работы.",
+    "price": 45000,
+    "images": [
+      "assets/jbl_charge5_1.jpeg",
+      "assets/jbl_charge5_2.jpeg"
+    ]
+  },
+  {
+    "name": "Монитор Dell UltraSharp 27",
+    "desc": "Профессиональный монитор с диагональю 27 дюймов, 4K разрешением и точной цветопередачей.",
+    "price": 150000,
+    "images": [
+      "assets/dell_ultrasharp_1.jpeg",
+      "assets/dell_ultrasharp_2.jpeg",
+      "assets/dell_ultrasharp_3.jpeg",
+      "assets/dell_ultrasharp_4.jpeg",
+      "assets/dell_ultrasharp_5.jpeg"
+    ]
+  }
+]
