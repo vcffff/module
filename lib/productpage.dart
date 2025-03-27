@@ -1,6 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:untitled9/GROBAL.dart';
 import 'package:untitled9/cartpage.dart';
+import 'dart:convert';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+
+// Function to get the cart file
+Future<File> getCartFile() async {
+  final directory = await getApplicationDocumentsDirectory();
+  return File('${directory.path}/cart.json');
+}
+
+// Function to save cart data
+Future<void> saveCartData(Map<String, dynamic> productData) async {
+  try {
+    final file = await getCartFile();
+    List<dynamic> cartData = [];
+
+    if (await file.exists()) {
+      final content = await file.readAsString();
+      if (content.isNotEmpty) {
+        cartData = jsonDecode(content);
+      }
+    }
+
+    cartData.add(productData);
+    await file.writeAsString(jsonEncode(cartData));
+
+    print("Cart updated: $cartData");
+  } catch (e) {
+    print("Error writing to cart.json: $e");
+  }
+}
 
 class ProductPage extends StatefulWidget {
   final Map<String, dynamic> product;
@@ -34,8 +65,19 @@ class _ProductPageState extends State<ProductPage> {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          print(cartService.cartItems);
+        onPressed: () async {
+          // Test saveCartData with sample data
+          final testProductData = {'name': 'Test Product', 'price': 1000};
+          await saveCartData(testProductData);
+
+          // Verify the contents of the cart file
+          final file = await getCartFile();
+          if (await file.exists()) {
+            final content = await file.readAsString();
+            print("Cart file content: $content");
+          } else {
+            print("Cart file does not exist.");
+          }
         },
       ),
       body: Column(
@@ -123,11 +165,20 @@ class _ProductPageState extends State<ProductPage> {
                     width: double.infinity,
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         setState(() {
                           cartService.addToCart(ProductItem(item: widget.product));
                         });
-                        print(cartService.cartItems);
+
+                        // Extract name and price
+                        final productData = {
+                          'name': widget.product['name'],
+                          'price': widget.product['price']
+                        };
+
+                        // Save cart data using the provided function
+                        await saveCartData(productData);
+
                         Navigator.pop(context);
                       },
                       style: ElevatedButton.styleFrom(
@@ -146,3 +197,4 @@ class _ProductPageState extends State<ProductPage> {
     );
   }
 }
+

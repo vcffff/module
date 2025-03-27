@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:untitled9/cartpage.dart';
 import 'productpage.dart';
-
-void main() => runApp(MyApp());
+import 'package:path_provider/path_provider.dart';
+void main() {
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
