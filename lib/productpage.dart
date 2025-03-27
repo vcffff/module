@@ -36,14 +36,7 @@ class _ProductPageState extends State<ProductPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Test adding a sample product to the cart
-          final testProductData = {'name': 'Test Product', 'price': 1000};
-          cartData.add(testProductData);
-          print("Cart updated: $cartData");
-        },
-      ),
+     
       body: Column(
         children: [
           Stack(

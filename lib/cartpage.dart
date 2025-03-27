@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'catalogue.dart';
 import 'profile.dart';
 
@@ -12,9 +13,34 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
+  @override
+  void initState() {
+    super.initState();
+    _loadCartItems();
+  }
+
+  Future<void> _loadCartItems() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedCart = prefs.getString('cartItems');
+    if (savedCart != null) {
+      setState(() {
+        widget.cartItems.clear();
+        widget.cartItems.addAll(List<Map<String, dynamic>>.from(
+          (savedCart as List).map((item) => Map<String, dynamic>.from(item)),
+        ));
+      });
+    }
+  }
+
+  Future<void> _saveCartItems() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('cartItems', widget.cartItems.toString());
+  }
+
   void removeItem(int index) {
     setState(() {
       widget.cartItems.removeAt(index);
+      _saveCartItems();
     });
   }
 
@@ -27,8 +53,10 @@ class _CartPageState extends State<CartPage> {
       } else {
         removeItem(index);
       }
+      _saveCartItems();
     });
   }
+
   double calculateTotalPrice(){
     double total=0;
     for(var i=0;i<widget.cartItems.length;i++){
@@ -55,6 +83,7 @@ class _CartPageState extends State<CartPage> {
             onPressed: () {
               setState(() {
                 widget.cartItems.clear();
+                _saveCartItems();
               });
             },
           ),
@@ -197,7 +226,8 @@ class _CartPageState extends State<CartPage> {
                   width: 220,
                   height: 40,
                   child: Expanded(child: ElevatedButton(onPressed: (){ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Заказ оформлен'),duration: Duration(seconds: 3),));setState(() {
-                    widget.cartItems.clear();'Заказ оформлен';
+                    widget.cartItems.clear();
+                    _saveCartItems();
                   });;}, child: Text('Оформить заказ'),style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple,foregroundColor: Colors.white,shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),),
                   ),
                 ),

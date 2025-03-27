@@ -103,16 +103,41 @@ class _CataloguePageState extends State<CataloguePage> {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
     Expanded(
-    child: ClipRRect(
-    borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
-    // child: Image.asset(
-    // filtered[index]['images'][0],
-    // fit: BoxFit.cover,
-    // width: double.infinity,
-    // ),
-    child: Image.network(
-    filtered[index]['images'][0],),
+    child: PageView.builder(
+      itemCount: filtered[index]['images'].length,
+      onPageChanged: (pageIndex) {
+        setState(() {
+          filtered[index]['currentPage'] = pageIndex;
+        });
+      },
+      itemBuilder: (context, imageIndex) {
+        return ClipRRect(
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
+          child: Image.network(
+            filtered[index]['images'][imageIndex],
+            fit: BoxFit.cover,
+            width: double.infinity,
+          ),
+        );
+      },
     ),
+    ),
+    Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: List.generate(
+        filtered[index]['images'].length,
+        (dotIndex) => Container(
+          margin: const EdgeInsets.symmetric(horizontal: 2),
+          width: 8,
+          height: 8,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: filtered[index]['currentPage'] == dotIndex
+                ? Colors.blue
+                : Colors.grey,
+          ),
+        ),
+      ),
     ),
     Padding(
     padding: const EdgeInsets.all(8.0),
