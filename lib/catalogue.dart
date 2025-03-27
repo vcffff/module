@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
+import 'productpage.dart';
 
 class CataloguePage extends StatefulWidget {
   final List<Map<String, dynamic>> cart;
