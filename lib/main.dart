@@ -136,7 +136,7 @@ class _IndexedState extends State<IndexedScreen> {
     super.initState();
     pages = [
       CataloguePage(cart: cart),
-      CartPage(), 
+      CartPage(cartItems: cart), 
       Profile(),
     ];
   }

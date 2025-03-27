@@ -1,37 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:untitled9/GROBAL.dart';
 import 'package:untitled9/cartpage.dart';
-import 'dart:convert';
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
 
-// Function to get the cart file
-Future<File> getCartFile() async {
-  final directory = await getApplicationDocumentsDirectory();
-  return File('${directory.path}/cart.json');
-}
-
-// Function to save cart data
-Future<void> saveCartData(Map<String, dynamic> productData) async {
-  try {
-    final file = await getCartFile();
-    List<dynamic> cartData = [];
-
-    if (await file.exists()) {
-      final content = await file.readAsString();
-      if (content.isNotEmpty) {
-        cartData = jsonDecode(content);
-      }
-    }
-
-    cartData.add(productData);
-    await file.writeAsString(jsonEncode(cartData));
-
-    print("Cart updated: $cartData");
-  } catch (e) {
-    print("Error writing to cart.json: $e");
-  }
-}
+// In-memory cart data
+List<Map<String, dynamic>> cartData = [];
 
 class ProductPage extends StatefulWidget {
   final Map<String, dynamic> product;
@@ -65,19 +37,11 @@ class _ProductPageState extends State<ProductPage> {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          // Test saveCartData with sample data
+        onPressed: () {
+          // Test adding a sample product to the cart
           final testProductData = {'name': 'Test Product', 'price': 1000};
-          await saveCartData(testProductData);
-
-          // Verify the contents of the cart file
-          final file = await getCartFile();
-          if (await file.exists()) {
-            final content = await file.readAsString();
-            print("Cart file content: $content");
-          } else {
-            print("Cart file does not exist.");
-          }
+          cartData.add(testProductData);
+          print("Cart updated: $cartData");
         },
       ),
       body: Column(
@@ -116,7 +80,12 @@ class _ProductPageState extends State<ProductPage> {
                 child: IconButton(
                   icon: const Icon(Icons.shopping_cart, color: Colors.white),
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const CartPage()));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CartPage(cartItems: cartData), // Pass cartData as cartItems
+                      ),
+                    );
                   },
                 ),
               ),
@@ -165,27 +134,39 @@ class _ProductPageState extends State<ProductPage> {
                     width: double.infinity,
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: () async {
-                        setState(() {
-                          cartService.addToCart(ProductItem(item: widget.product));
-                        });
+                      onPressed: () {
+                        // Check if the product is already in the cart
+                        final isInCart = cartData.any((item) => item['name'] == widget.product['name']);
 
-                        // Extract name and price
-                        final productData = {
-                          'name': widget.product['name'],
-                          'price': widget.product['price']
-                        };
+                        if (!isInCart) {
+                          setState(() {
+                            cartService.addToCart(ProductItem(item: widget.product));
+                          });
 
-                        // Save cart data using the provided function
-                        await saveCartData(productData);
+                          // Add product to in-memory cart
+                          final productData = {
+                            'name': widget.product['name'],
+                            'price': widget.product['price']
+                          };
+                          cartData.add(productData);
 
-                        Navigator.pop(context);
+                          Navigator.pop(context);
+                          print(cartService.cartItems);
+                          Navigator.push(context,MaterialPageRoute(builder: (context) => CartPage(cartItems: cartData)));
+                        }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.deepPurple,
+                        backgroundColor: cartData.any((item) => item['name'] == widget.product['name'])
+                            ? Colors.grey
+                            : Colors.deepPurple,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       ),
-                      child: const Text("Добавить в корзину", style: TextStyle(fontSize: 16, color: Colors.white)),
+                      child: Text(
+                        cartData.any((item) => item['name'] == widget.product['name'])
+                            ? "В корзине"
+                            : "Добавить в корзину",
+                        style: const TextStyle(fontSize: 16, color: Colors.white),
+                      ),
                     ),
                   ),
                 ],
