@@ -59,15 +59,18 @@ class _IndexedState extends State<IndexedScreen> {
         onTap: _onItemTapped,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: SizedBox(
+              height: 24,
+              child: Image(image: AssetImage('assets/home_icon.png')),
+            ),
             label: "Каталог",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
+            icon: SizedBox(height: 24,child: Image(image: AssetImage('assets/shop_icon.png'),),),
             label: "Корзина",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: SizedBox(height: 24,child: Image(image: NetworkImage('assets/profile_icon.png')),),
             label: "Профиль",
           ),
         ],

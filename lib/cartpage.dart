@@ -29,14 +29,18 @@ class _CartPageState extends State<CartPage> {
       }
     });
   }
-
-  double calculateTotalPrice() {
-    return widget.cartItems.fold(0, (total, item) {
-      final price = item['price'] ?? 0;
-      final quantity = item['quantity'] ?? 1;
-      return total + (price * quantity);
-    });
+  double calculateTotalPrice(){
+    double total=0;
+    for(var i=0;i<widget.cartItems.length;i++){
+     final price=widget.cartItems[i]['price']??0;
+     final quantity=widget.cartItems[i]['quantity']??1;
+     total+=price*quantity;
+    }
+    return total;
+    
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -174,9 +178,11 @@ class _CartPageState extends State<CartPage> {
                 ),
               ],
             ),
+
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                 const Text(
                   "Вся сумма:",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -184,6 +190,16 @@ class _CartPageState extends State<CartPage> {
                 Text(
                   "${calculateTotalPrice().toInt()} ₸",
                   style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                ]
+                ),
+                Container(
+                  width: 220,
+                  height: 40,
+                  child: Expanded(child: ElevatedButton(onPressed: (){ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Заказ оформлен'),duration: Duration(seconds: 3),));setState(() {
+                    widget.cartItems.clear();'Заказ оформлен';
+                  });;}, child: Text('Оформить заказ'),style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple,foregroundColor: Colors.white,shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),),
+                  ),
                 ),
               ],
             ),
@@ -200,9 +216,12 @@ class _CartPageState extends State<CartPage> {
           }
         },
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_bag_outlined), label: "Каталог"),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart_outlined), label: "Корзина"),
-          BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: "Профиль"),
+          BottomNavigationBarItem(icon: SizedBox(
+              height: 24,
+              child: Image(image: AssetImage('assets/home_icon.png')),
+            ), label: "Каталог"),
+          BottomNavigationBarItem(icon:SizedBox(height: 24,child: Image(image: AssetImage('assets/shop_icon.png'),),), label: "Корзина"),
+          BottomNavigationBarItem(icon:  SizedBox(height: 24,child: Image(image: NetworkImage('assets/profile_icon.png')),), label: "Профиль"),
         ],
       ),
     );
