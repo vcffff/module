@@ -27,7 +27,7 @@ class IndexedScreen extends StatefulWidget {
 
 class _IndexedState extends State<IndexedScreen> {
   int selected = 0;
-  final List<Map<String, dynamic>> cart = []; 
+  final List<Map<String,dynamic>> cart=[];
 
   late final List<Widget> pages;
 
@@ -41,11 +41,11 @@ class _IndexedState extends State<IndexedScreen> {
     ];
   }
 
-  void _onItemTapped(int index) {
-    setState(() {
-      selected = index;
-    });
-  }
+ void _onItemTapped(int index){
+  setState(() {
+    selected=index;
+  });
+ }
 
   @override
   Widget build(BuildContext context) {

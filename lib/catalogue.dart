@@ -15,7 +15,7 @@ class CataloguePage extends StatefulWidget {
 class _CataloguePageState extends State<CataloguePage> {
   List items = [];
   List filtered = [];
-  final TextEditingController searchController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
@@ -28,135 +28,151 @@ class _CataloguePageState extends State<CataloguePage> {
     List decoded = jsonDecode(data);
     setState(() {
       items = decoded;
-      filtered = List.from(items);
+      filtered = items;
     });
   }
 
+  // void filter(String query) {
+  //   query = query.toLowerCase();
+  //   setState(() {
+  //     filtered = query.isEmpty
+  //         ? List.from(items)
+  //         : items.where((item)=>item['name'].toLowerCase().contains(query)).toList();
+  //   });
+  // }
+
   void filter(String query) {
-    query = query.toLowerCase();
     setState(() {
+      query = query.toLowerCase();
       filtered = query.isEmpty
           ? List.from(items)
-          : items.where((item) => item['name'].toString().toLowerCase().contains(query)).toList();
+          : items
+              .where((item) => item['name'].toLowerCase().contains(query))
+              .toList();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-            children: [
-            const SizedBox(height: 20),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: TextField(
-            controller: searchController,
-            onChanged: filter,
-            decoration: InputDecoration(
-              suffixIcon: searchController.text.isNotEmpty
-                  ? IconButton(
-                icon: const Icon(Icons.clear),
-                onPressed: () {
-                  searchController.clear();
-                  filter('');
-                },
-              )
-                  : const Icon(Icons.search),
-              hintText: 'Поиск',
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+      body: Column(
+        children: [
+          const SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: TextField(
+              controller: searchController,
+              onChanged: filter,
+              decoration: InputDecoration(
+                suffixIcon: searchController.text.isNotEmpty
+                    ? IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () {
+                          searchController.clear();
+                          filter('');
+                        },
+                      )
+                    : const Icon(Icons.search),
+                hintText: 'Поиск',
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+              ),
             ),
           ),
-        ),
-        Expanded(
-        child: GridView.builder(
-        padding: const EdgeInsets.all(10),
-    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-    crossAxisCount: 2,
-    crossAxisSpacing: 10,
-    mainAxisSpacing: 10,
-    childAspectRatio: 0.75,
-    ),
-    itemCount: filtered.length,
-    itemBuilder: (context, index) => GestureDetector(
-    onTap: () {
-    Navigator.push(
-  context,
-  MaterialPageRoute(
-    builder: (context) => ProductPage(
-      
-      product: filtered[index],
-      cart: widget.cart,
-      onAddToCart: (product) { 
-        setState(() {
-          widget.cart.add(product);
-        });
-      },
-    ),
-  ),
-);
-
-    }, // <-- Missing closing brace added here
-    child: Card(
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-    elevation: 4,
-    child: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-    Expanded(
-    child: PageView.builder(
-      itemCount: filtered[index]['images'].length,
-      onPageChanged: (pageIndex) {
-        setState(() {
-          filtered[index]['currentPage'] = pageIndex;
-        });
-      },
-      itemBuilder: (context, imageIndex) {
-        return ClipRRect(
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
-          child: Image.network(
-            filtered[index]['images'][imageIndex],
-            fit: BoxFit.cover,
-            width: double.infinity,
+          Expanded(
+            child: GridView.builder(
+              padding: const EdgeInsets.all(10),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: 0.75,
+              ),
+              itemCount: filtered.length,
+              itemBuilder: (context, index) => GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProductPage(
+                        product: filtered[index],
+                        cart: widget.cart,
+                        onAddToCart: (product) {
+                          setState(() {
+                            widget.cart.add(product);
+                          });
+                        },
+                      ),
+                    ),
+                  );
+                },
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)),
+                  elevation: 4,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: PageView.builder(
+                          itemCount: filtered[index]['images'].length,
+                          onPageChanged: (pageIndex) {
+                            setState(() {
+                              filtered[index]['currentPage'] = pageIndex;
+                            });
+                          },
+                          itemBuilder: (context, imageIndex) {
+                            return ClipRRect(
+                              borderRadius: const BorderRadius.vertical(
+                                  top: Radius.circular(15)),
+                              child: Image.network(
+                                filtered[index]['images'][imageIndex],
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: List.generate(
+                          filtered[index]['images'].length,
+                          (dotIndex) => Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 2),
+                            width: 8,
+                            height: 8,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: filtered[index]['currentPage'] == dotIndex
+                                  ? Colors.blue
+                                  : Colors.grey,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(filtered[index]['name'],
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16)),
+                            const SizedBox(height: 4),
+                            Text(filtered[index]['desc'],
+                                style: const TextStyle(color: Colors.grey)),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ),
-        );
-      },
-    ),
-    ),
-    Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(
-        filtered[index]['images'].length,
-        (dotIndex) => Container(
-          margin: const EdgeInsets.symmetric(horizontal: 2),
-          width: 8,
-          height: 8,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: filtered[index]['currentPage'] == dotIndex
-                ? Colors.blue
-                : Colors.grey,
-          ),
-        ),
+        ],
       ),
-    ),
-    Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-    Text(filtered[index]['name'], style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-    const SizedBox(height: 4),
-    Text(filtered[index]['desc'], style: const TextStyle(color: Colors.grey)),
-    ],
-    ),
-    ),],
-    ),
-    ),
-    ),
-        ),
-        ),
-            ],
-        ),
     );
   }
 }

@@ -1,8 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:untitled9/GROBAL.dart';
 import 'package:untitled9/cartpage.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-// In-memory cart data
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Product Page',
+      theme: ThemeData(
+        primarySwatch: Colors.deepPurple,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: ProductPage(
+        product: {'hello': 200},
+        cart: cartData,
+        onAddToCart: (name) {
+          cartData.add(name);
+        },
+      ),
+    );
+  }
+}
+
+
 List<Map<String, dynamic>> cartData = [];
 
 class ProductPage extends StatefulWidget {
@@ -22,7 +51,23 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
-  final CartService cartService = CartService();
+  late Box mainbox;
+  List <Map<String,dynamic>> datas=[];
+  @override
+  void initState() {
+    super.initState();
+    opening();
+  }
+
+  Future<void> opening() async {
+    mainbox = await Hive.openBox('selected');
+    datas = List<Map<String, dynamic>>.from(
+      mainbox.get('selected', defaultValue: []),
+    );
+    setState(() {});
+  }
+ 
+    final CartService cartService = CartService();
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
@@ -76,7 +121,7 @@ class _ProductPageState extends State<ProductPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => CartPage(cartItems: cartData), // Pass cartData as cartItems
+                        builder: (context) => CartPage(cartItems: datas), // Pass cartData as cartItems
                       ),
                     );
                   },
@@ -129,23 +174,27 @@ class _ProductPageState extends State<ProductPage> {
                     child: ElevatedButton(
                       onPressed: () {
                         // Check if the product is already in the cart
-                        final isInCart = cartData.any((item) => item['name'] == widget.product['name']);
+                        final isInCart = datas.any((item) => item['name'] == widget.product['name']);
 
                         if (!isInCart) {
                           setState(() {
                             cartService.addToCart(ProductItem(item: widget.product));
                           });
 
-                          // Add product to in-memory cart
+                          // Add product to Hive-backed cart
                           final productData = {
                             'name': widget.product['name'],
                             'price': widget.product['price']
                           };
-                          cartData.add(productData);
+                          datas.add(productData);
+                          mainbox.put('selected', datas);
 
                           Navigator.pop(context);
                           print(cartService.cartItems);
-                          Navigator.push(context,MaterialPageRoute(builder: (context) => CartPage(cartItems: cartData)));
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => CartPage(cartItems: datas)),
+                          );
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -171,4 +220,3 @@ class _ProductPageState extends State<ProductPage> {
     );
   }
 }
-

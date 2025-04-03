@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'login.dart';
 class Profile extends StatefulWidget {
   const Profile({super.key});
 
@@ -59,7 +60,7 @@ class _ProfileState extends State<Profile> {
           const SizedBox(height: 40),
           TextButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
             },
             style: TextButton.styleFrom(
               padding: const EdgeInsets.only(left: 16),
