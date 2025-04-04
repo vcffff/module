@@ -2,8 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'catalogue.dart';
 import 'profile.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'dart:convert';
+
+void main(){
+  WidgetsFlutterBinding.ensureInitialized();
+  Hive.initFlutter();
+  runApp(cartmain());
+}
+
+class cartmain extends StatefulWidget {
+  const cartmain({super.key});
+
+  @override
+  State<cartmain> createState() => _cartmainState();
+}
+
+class _cartmainState extends State<cartmain> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
 
 class CartPage extends StatefulWidget {
+  
   final List<Map<String, dynamic>> cartItems;
 
   const CartPage({Key? key, required this.cartItems}) : super(key: key);
@@ -13,6 +37,7 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
+  
   @override
   void initState() {
     super.initState();
@@ -26,7 +51,7 @@ class _CartPageState extends State<CartPage> {
       setState(() {
         widget.cartItems.clear();
         widget.cartItems.addAll(List<Map<String, dynamic>>.from(
-          (savedCart as List).map((item) => Map<String, dynamic>.from(item)),
+          jsonDecode(savedCart).map((item) => Map<String, dynamic>.from(item)),
         ));
       });
     }
@@ -34,7 +59,7 @@ class _CartPageState extends State<CartPage> {
 
   Future<void> _saveCartItems() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('cartItems', widget.cartItems.toString());
+    await prefs.setString('cartItems', jsonEncode(widget.cartItems));
   }
 
   void removeItem(int index) {
@@ -242,7 +267,7 @@ class _CartPageState extends State<CartPage> {
           if (index == 0) {
             Navigator.push(context, MaterialPageRoute(builder: (context) => const CataloguePage(cart: [])));
           } else if (index == 2) {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const Profile()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const Profile(user: {'hello':'hello2'},)));
           }
         },
         items: const [

@@ -121,7 +121,7 @@ class _ProductPageState extends State<ProductPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => CartPage(cartItems: datas), // Pass cartData as cartItems
+                        builder: (context) => CartPage(cartItems: datas), 
                       ),
                     );
                   },
@@ -173,7 +173,7 @@ class _ProductPageState extends State<ProductPage> {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
-                        // Check if the product is already in the cart
+                    
                         final isInCart = datas.any((item) => item['name'] == widget.product['name']);
 
                         if (!isInCart) {
@@ -181,7 +181,7 @@ class _ProductPageState extends State<ProductPage> {
                             cartService.addToCart(ProductItem(item: widget.product));
                           });
 
-                          // Add product to Hive-backed cart
+                         
                           final productData = {
                             'name': widget.product['name'],
                             'price': widget.product['price']

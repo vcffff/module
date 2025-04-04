@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'productpage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CataloguePage extends StatefulWidget {
   final List<Map<String, dynamic>> cart;
@@ -21,6 +22,7 @@ class _CataloguePageState extends State<CataloguePage> {
   void initState() {
     super.initState();
     loadData();
+    loadCart();
   }
 
   Future<void> loadData() async {
@@ -32,14 +34,21 @@ class _CataloguePageState extends State<CataloguePage> {
     });
   }
 
-  // void filter(String query) {
-  //   query = query.toLowerCase();
-  //   setState(() {
-  //     filtered = query.isEmpty
-  //         ? List.from(items)
-  //         : items.where((item)=>item['name'].toLowerCase().contains(query)).toList();
-  //   });
-  // }
+  Future<void> loadCart() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? cartData = prefs.getString('cart');
+    if (cartData != null) {
+      setState(() {
+        widget.cart.clear();
+        widget.cart.addAll(List<Map<String, dynamic>>.from(jsonDecode(cartData)));
+      });
+    }
+  }
+
+  Future<void> saveCart() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('cart', jsonEncode(widget.cart));
+  }
 
   void filter(String query) {
     setState(() {
@@ -100,6 +109,7 @@ class _CataloguePageState extends State<CataloguePage> {
                         onAddToCart: (product) {
                           setState(() {
                             widget.cart.add(product);
+                            saveCart(); // Save the cart after adding an item
                           });
                         },
                       ),

@@ -37,7 +37,10 @@ class _LoginState extends State<Login> {
     if (isLoggedIn) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => IndexedScreen()),
+        MaterialPageRoute(
+            builder: (context) => IndexedScreen(
+                  user: {'hello': 'hello2'},
+                )),
       );
     }
   }
@@ -63,17 +66,6 @@ class _LoginState extends State<Login> {
   }
 
   void registerUser() {
-    String email = control1.text.trim();
-    String password = control2.text.trim();
-
-    if (email.isEmpty || password.isEmpty) {
-      setState(() {
-        errormes = 'Заполните все поля';
-      });
-      return;
-    }
-
-    saveUser('New User', email, password);
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => const Register()),
@@ -98,7 +90,8 @@ class _LoginState extends State<Login> {
       return;
     }
 
-    bool found = users.any((item) => item['mail'] == email && item['password'] == password);
+    bool found = users
+        .any((item) => item['mail'] == email && item['password'] == password);
     if (!found) {
       setState(() {
         errormes = 'Неверный логин или пароль';
@@ -109,13 +102,17 @@ class _LoginState extends State<Login> {
     setState(() {
       errormes = '';
     });
+    Map<String, String> usergoi = {
+      'name': '${control1.text}',
+      'mail': '${control2.text}',
+    };
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isLoggedIn', true);
 
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => CataloguePage(cart: cartData)),
+      MaterialPageRoute(builder: (context) => IndexedScreen(user: usergoi)),
     );
   }
 
@@ -138,12 +135,14 @@ class _LoginState extends State<Login> {
                 border: OutlineInputBorder(borderSide: BorderSide.none),
               ),
             ),
-            Container(height: 1,color: Colors.grey,),
+            Container(
+              height: 1,
+              color: Colors.grey,
+            ),
             TextField(
               obscureText: obscure,
               controller: control2,
               decoration: InputDecoration(
-                
                 hintText: 'Пароль',
                 border: const OutlineInputBorder(borderSide: BorderSide.none),
                 suffixIcon: IconButton(
@@ -173,7 +172,7 @@ class _LoginState extends State<Login> {
               ),
             ),
             const SizedBox(height: 10),
-               SizedBox(
+            SizedBox(
               width: double.infinity,
               height: 50,
               child: ElevatedButton(

@@ -21,6 +21,11 @@ class MyApp extends StatelessWidget {
 
 
 class IndexedScreen extends StatefulWidget {
+   final Map<String, String> user;
+   IndexedScreen({
+    Key? key,
+    required this.user,
+  }) : super(key: key);
   @override
   _IndexedState createState() => _IndexedState();
 }
@@ -29,16 +34,12 @@ class _IndexedState extends State<IndexedScreen> {
   int selected = 0;
   final List<Map<String,dynamic>> cart=[];
 
-  late final List<Widget> pages;
+
 
   @override
   void initState() {
     super.initState();
-    pages = [
-      CataloguePage(cart: cart),
-      CartPage(cartItems: cart), 
-      Profile(),
-    ];
+   
   }
 
  void _onItemTapped(int index){
@@ -49,6 +50,11 @@ class _IndexedState extends State<IndexedScreen> {
 
   @override
   Widget build(BuildContext context) {
+   final List<Widget>  pages = [
+      CataloguePage(cart: cart),
+      CartPage(cartItems: cart), 
+      Profile(user:widget.user,),
+    ];
     return Scaffold(
       body: IndexedStack(
         index: selected,
@@ -70,6 +76,7 @@ class _IndexedState extends State<IndexedScreen> {
             label: "Корзина",
           ),
           BottomNavigationBarItem(
+            
             icon: SizedBox(height: 24,child: Image(image: NetworkImage('assets/profile_icon.png')),),
             label: "Профиль",
           ),
