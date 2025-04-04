@@ -67,12 +67,7 @@ Getting Started
 
 
 
-🛠 Tech Stack
-Feature	Tech Used	Purpose
-Local Storage	🗃️ Hive	Fast & efficient NoSQL DB
-Persistent Data	🔐 SharedPreferences	Saves user preferences
-JSON Handling	📦 dart:convert	Parses store.json & login.json
-UI Framework	� Flutter	Beautiful, responsive design
+
 
 ![Снимок экрана 2025-04-04 115504](https://github.com/user-attachments/assets/78db627e-d0fd-4979-a618-1e76f949c13b)
 
@@ -83,6 +78,7 @@ UI Framework	� Flutter	Beautiful, responsive design
   hive_flutter: ^1.1.0        # 📱 Flutter Hive integration
   flutter:
     sdk: flutter
+![image](https://github.com/user-attachments/assets/c2898d1a-0b09-4d0c-bafe-2c3af1d3ed3a)
 
 
  🎯 Future Improvements
