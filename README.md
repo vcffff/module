@@ -65,20 +65,7 @@ Getting Started
 
  Run the app with flutter run
 
-File Structure📂 :  
-            lib/
-                    ├── cart_service.dart      # 🛒 Cart logic & services
-                    ├── store.json            # 📋 Product data (name, desc, price, images)
-                    ├── cartpage.dart         # 🛍️ Cart UI + functions
-                    ├── catalogue.dart        # 🏷️ Product Grid View
-                    ├── GLOBAL.dart           # 🌍 State management
-                    ├── indexed.dart          # 🗄️ Hive DB operations
-                    ├── login.dart            # 🔐 Login Screen
-                    ├── login.json            # 👥 User credentials
-                    ├── main.dart             # 🚀 App entry point
-                    ├── productpage.dart      # 📱 Product details
-                    ├── profile.dart          # 👤 User profile
-                    └── register.dart         # 📝 Registration screen
+
 
 🛠 Tech Stack
 Feature	Tech Used	Purpose
@@ -86,6 +73,8 @@ Local Storage	🗃️ Hive	Fast & efficient NoSQL DB
 Persistent Data	🔐 SharedPreferences	Saves user preferences
 JSON Handling	📦 dart:convert	Parses store.json & login.json
 UI Framework	� Flutter	Beautiful, responsive design
+
+![Снимок экрана 2025-04-04 115504](https://github.com/user-attachments/assets/78db627e-d0fd-4979-a618-1e76f949c13b)
 
 
  dependencies:
