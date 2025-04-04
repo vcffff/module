@@ -72,12 +72,12 @@ Getting Started
 ![Снимок экрана 2025-04-04 115504](https://github.com/user-attachments/assets/78db627e-d0fd-4979-a618-1e76f949c13b)
 
 
- dependencies:
-  shared_preferences: ^2.0.15  # 🔐 Save user settings
-  hive: ^2.2.3                # 🗃️ NoSQL local storage
-  hive_flutter: ^1.1.0        # 📱 Flutter Hive integration
-  flutter:
-    sdk: flutter
+   dependencies:
+    shared_preferences: ^2.0.15  # 🔐 Save user settings
+    hive: ^2.2.3                # 🗃️ NoSQL local storage
+    hive_flutter: ^1.1.0        # 📱 Flutter Hive integration
+    flutter:
+      sdk: flutter
 ![image](https://github.com/user-attachments/assets/c2898d1a-0b09-4d0c-bafe-2c3af1d3ed3a)
 
 
