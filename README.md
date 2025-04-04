@@ -1,16 +1,71 @@
-# untitled9
+Shopping Cart in Flutter
+This project is a Flutter application that implements the functionality of a shopping cart. Users can add items to the cart, change their quantity, remove them, and place an order. All cart data is stored using the SharedPreferences package, so the cart is not cleared after the app is restarted.
 
-A new Flutter project.
+Key Features:
+View items in the cart
 
-## Getting Started
+Change the quantity of items
 
-This project is a starting point for a Flutter application.
+Remove items from the cart
 
-A few resources to get you started if this is your first Flutter project:
+Clear the entire cart
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Place an order with total price calculation
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Local data storage using SharedPreferences
+
+Project Structure:
+main.dart: The main entry point of the app, where initialization and app launch occur.
+
+cartmain.dart: The cart page, where the items and actions related to the cart are displayed.
+
+catalogue.dart: The product catalog page (not fully detailed but implied).
+
+profile.dart: The user profile page (not fully detailed but implied).
+
+Dependencies:
+shared_preferences: For local data storage (shopping cart data).
+
+hive: For working with local databases (can be used for storing other data if needed).
+
+hive_flutter: Flutter integration for Hive.
+
+dart:convert: For working with JSON and encoding/decoding data.
+
+Installation
+Clone the repository:
+
+bash
+Копировать
+Редактировать
+git clone https://github.com/your-repository.git
+Navigate to the project directory:
+
+bash
+Копировать
+Редактировать
+cd project-name
+Install dependencies:
+
+bash
+Копировать
+Редактировать
+flutter pub get
+Run the app:
+
+bash
+Копировать
+Редактировать
+flutter run
+Features:
+Cart Page (CartPage)
+On the main cart page, you can:
+
+Change the quantity of items.
+
+Remove items from the cart.
+
+Clear the entire cart.
+
+Place an order, which clears the cart and updates the total price.
+
