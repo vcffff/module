@@ -67,18 +67,18 @@ Getting Started
 
 File Structure📂 :  
             lib/
-├── cart_service.dart      # 🛒 Cart logic & services
-├── store.json            # 📋 Product data (name, desc, price, images)
-├── cartpage.dart         # 🛍️ Cart UI + functions
-├── catalogue.dart        # 🏷️ Product Grid View
-├── GLOBAL.dart           # 🌍 State management
-├── indexed.dart          # 🗄️ Hive DB operations
-├── login.dart            # 🔐 Login Screen
-├── login.json            # 👥 User credentials
-├── main.dart             # 🚀 App entry point
-├── productpage.dart      # 📱 Product details
-├── profile.dart          # 👤 User profile
-└── register.dart         # 📝 Registration screen
+                    ├── cart_service.dart      # 🛒 Cart logic & services
+                    ├── store.json            # 📋 Product data (name, desc, price, images)
+                    ├── cartpage.dart         # 🛍️ Cart UI + functions
+                    ├── catalogue.dart        # 🏷️ Product Grid View
+                    ├── GLOBAL.dart           # 🌍 State management
+                    ├── indexed.dart          # 🗄️ Hive DB operations
+                    ├── login.dart            # 🔐 Login Screen
+                    ├── login.json            # 👥 User credentials
+                    ├── main.dart             # 🚀 App entry point
+                    ├── productpage.dart      # 📱 Product details
+                    ├── profile.dart          # 👤 User profile
+                    └── register.dart         # 📝 Registration screen
 
 🛠 Tech Stack
 Feature	Tech Used	Purpose
