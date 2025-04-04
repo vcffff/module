@@ -1,71 +1,75 @@
-Shopping Cart in Flutter
-This project is a Flutter application that implements the functionality of a shopping cart. Users can add items to the cart, change their quantity, remove them, and place an order. All cart data is stored using the SharedPreferences package, so the cart is not cleared after the app is restarted.
+![Group 13](https://github.com/user-attachments/assets/5da27e58-7c0d-49df-be19-759d435fa286) E-Commerce Cart Application - Flutter
+ Project Architecture
 
-Key Features:
-View items in the cart
+ A Flutter e-commerce application featuring a shopping cart system with various functionalities including cart management, user authentication, and product catalog.
 
-Change the quantity of items
+Features
+Core Functionalities
+Cart Management:
 
-Remove items from the cart
+  Change quantity of items in the cart
+  
+  Remove individual items from the cart
+  
+  Clear the entire cart with one action
+  
+  Place orders (clears cart and updates total price)
 
-Clear the entire cart
+Technical Implementations
+  State Management: Uses GLOBAL.dart for shared application state
+  
+  Local Storage:
+  
+  shared_preferences for persistent user data and preferences
+  
+  hive for efficient local data storage
 
-Place an order with total price calculation
+Data Handling:
 
-Local data storage using SharedPreferences
+  dart:convert for JSON serialization/deserialization
+  
+  Product data loaded from cat.json
+  
+  Login data stored in login.json
 
-Project Structure:
-main.dart: The main entry point of the app, where initialization and app launch occur.
+UI Components
+  CartPage.dart: Main cart interface with all cart operations
+  
+  Catalogue.dart: Product listing page
+  
+  ProductPage.dart: Individual product details
+  
+  Login.dart & Register.dart: User authentication screens
+  
+  Profile.dart: User profile management
 
-cartmain.dart: The cart page, where the items and actions related to the cart are displayed.
+Getting Started
+ Clone the repository
 
-catalogue.dart: The product catalog page (not fully detailed but implied).
+ Run flutter pub get to install dependencies
 
-profile.dart: The user profile page (not fully detailed but implied).
+ Run the app with flutter run
 
-Dependencies:
-shared_preferences: For local data storage (shopping cart data).
+Dependencies
+  shared_preferences: ^2.0.15
+  
+  hive: ^2.2.3
+  
+  hive_flutter: ^1.1.0
+  
+  flutter:
+  sdk: flutter
 
-hive: For working with local databases (can be used for storing other data if needed).
-
-hive_flutter: Flutter integration for Hive.
-
-dart:convert: For working with JSON and encoding/decoding data.
-
-Installation
-Clone the repository:
-
-bash
-Копировать
-Редактировать
-git clone https://github.com/your-repository.git
-Navigate to the project directory:
-
-bash
-Копировать
-Редактировать
-cd project-name
-Install dependencies:
-
-bash
-Копировать
-Редактировать
-flutter pub get
-Run the app:
-
-bash
-Копировать
-Редактировать
-flutter run
-Features:
-Cart Page (CartPage)
-On the main cart page, you can:
-
-Change the quantity of items.
-
-Remove items from the cart.
-
-Clear the entire cart.
-
-Place an order, which clears the cart and updates the total price.
+JSON Data Structure
+Products are loaded from store.json which should follow this structure:
+     [
+  {
+    "name": "Ноутбук ASUS VivoBook 15",
+    "desc": "Мощный и стильный ноутбук с процессором Intel Core i5, 8 ГБ ОЗУ и SSD на 512 ГБ.",
+    "price": 350000,
+    "images": [
+      "images/laptop_asus1.jpeg"
+    ]
+  },
+  ]
 
